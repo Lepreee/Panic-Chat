@@ -2,6 +2,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
         <title>Panic Chat</title>
         <style>
 body{
@@ -11,7 +12,7 @@ body{
 header{
     width: 100vw;
     height: calc(var(--vh, 1vh) * 10);
-    background-color: black;
+    background-color: #1a1d23;
     position: sticky;
     top: 0;
     display: flex;
@@ -34,12 +35,18 @@ header{
 .open-keyboard{
     width: 20%;
     height: 80%;
-    background-color: blue;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 200%;
+    background-color: black;
+    border-radius: 1rem;
+    border: 1px solid white;
 }
 main{
     width: 100vw;
     min-height: calc(var(--vh, 1vh) * 90);
-    background-color: rgb(40, 40, 40);
+    background-color: #22272e;
 }
 .chat-container{
     box-sizing: border-box;
@@ -64,27 +71,27 @@ main{
 }
 input{
     all: unset;
-    width: 0.9%;
-    height: 100%;
-    text-align: center;
-    border-radius: 2rem;
+    width: 0.01%;
+    height: 0.01%;
     color: black;
+    background-color:blue;
 }
         </style>
     </head>
     <body>
+        
         <header>
             <div class="user-select" onclick="userSwitch()">
                 <div class="pointer"></div>
             </div>
             <div class="open-keyboard" onclick="openKeyboard()">
-                <input type="text" placeholder="click to type">
+                <i class="fa-solid fa-comments" style="color: #ffffff;"></i>
             </div>
         </header>
         <main>
             <div class="chat-container">
                 <div class="chats">...</div>
-
+                <input type="text" placeholder="click to type">
             </div>
         </main>
         
