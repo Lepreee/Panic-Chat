@@ -11,7 +11,8 @@ body{
 }
 header{
     width: 100vw;
-    height: 10vh;
+    /* height: 10vh; */
+    height: calc(var(--vh, 1vh) * 10);
     background-color: black;
     position: sticky;
     top: 0;
@@ -30,7 +31,7 @@ header{
 }
 main{
     width: 100vw;
-    min-height: 75vh;
+    height: calc(var(--vh, 1vh) * 75);
     background-color: rgb(40, 40, 40);
 }
 .chat-container{
@@ -57,7 +58,7 @@ main{
 }
 footer{
     width: 100vw;
-    height: 15vh;
+    height: calc(var(--vh, 1vh) * 15);
     background-color: rgb(40, 40, 40);
     position: sticky;
     bottom: 0;
@@ -99,7 +100,11 @@ footer{
         </footer>
 
         <script>
-            let userSelected = document.querySelector(".selected")
+let vh = window.innerHeight * 0.01
+document.documentElement.style.setProperty("--vh", vh + "px")
+
+
+let userSelected = document.querySelector(".selected")
 let users = document.getElementsByClassName("user")
 let chatContainer = document.getElementsByClassName("chat-container")[0]
 let chatWrap = document.getElementsByClassName("chatWrap")[0]
