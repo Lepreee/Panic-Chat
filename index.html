@@ -2,43 +2,56 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
         <title>Panic Chat</title>
         <style>
 body{
     margin: 0;
     padding: 0;
-    /* overflow: hidden; */
 }
 header{
     width: 100vw;
-    /* height: 10vh; */
     height: calc(var(--vh, 1vh) * 10);
-    background-color: black;
+    background-color: #1a1d23;
     position: sticky;
     top: 0;
     display: flex;
     align-items: center;
     justify-content: space-around;
 }
-.user{
-    width: 45%;
+.user-select{
+    width: 60%;
     height: 80%;
     background-color: gray;
     border-radius: 1.5rem;
 }
-.selected{
+.pointer{
+    width: 50%;
+    height: 100%;
     background-color: green;
+    border-radius: 1.5rem;
+    float: right;
+}
+.open-keyboard{
+    width: 20%;
+    height: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 200%;
+    background-color: black;
+    border-radius: 1rem;
+    border: 1px solid white;
 }
 main{
     width: 100vw;
-    min-height: calc(var(--vh, 1vh) * 75);
-    background-color: rgb(40, 40, 40);
+    min-height: calc(var(--vh, 1vh) * 90);
+    background-color: #22272e;
 }
 .chat-container{
     box-sizing: border-box;
     padding: 5% 0%;
     width: 100%;
-    /* height: 100%; */
     display: flex;
     flex-direction: column;
     gap: 0.25rem;
@@ -56,69 +69,51 @@ main{
     align-self: flex-end;
     font-family: Arial, Helvetica, sans-serif;
 }
-footer{
-    width: 100vw;
-    height: calc(var(--vh, 1vh) * 15);
-    background-color: rgb(40, 40, 40);
-    position: sticky;
-    bottom: 0;
-}
-.text-container{
-    width: 100%;
-    height: 100%;
-    background-color: black;
-    border-radius: 2rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.text-container input{
+input{
     all: unset;
-    width: 100%;
-    height: 100%;
-    text-align: center;
-    border-radius: 2rem;
-    color: white;
+    width: 0.01%;
+    height: 0.01%;
+    color: black;
+    background-color:blue;
 }
         </style>
     </head>
     <body>
+
         <header>
-            <div class="user person1" onclick="userSelectHandler(event)"></div>
-            <div class="user person2 selected" onclick="userSelectHandler(event)"></div>
+            <div class="user-select" onclick="userSwitch()">
+                <div class="pointer"></div>
+            </div>
+            <div class="open-keyboard" onclick="openKeyboard()">
+                <i class="fa-solid fa-comments" style="color: #ffffff;"></i>
+            </div>
         </header>
         <main>
             <div class="chat-container">
                 <div class="chats">...</div>
-
+                <input type="text" placeholder="click to type">
             </div>
         </main>
-        <footer>
-            <div class="text-container">
-                <input type="text" placeholder="type here">
-            </div>
-        </footer>
+
 
         <script>
 let vh = window.innerHeight * 0.01
 document.documentElement.style.setProperty("--vh", vh + "px")
 
 
-let userSelected = document.querySelector(".selected")
-let users = document.getElementsByClassName("user")
+let userSelector = document.querySelector(".user-select")
+let pointer = document.querySelector(".pointer")
 let chatContainer = document.getElementsByClassName("chat-container")[0]
-let chatWrap = document.getElementsByClassName("chatWrap")[0]
 let chats = document.getElementsByClassName("chats")
 let input = document.getElementsByTagName("input")
 
 let lastChat = chats[chats.length - 1]
 let person = 2
-function userSelectHandler(e){
-    userSelected.classList.remove("selected")
-    e.target.classList.add("selected")
-    userSelected = document.querySelector(".selected")
-    if(e.target.classList[1] === 'person1'){person = 1}else{person = 2}
-
+function userSwitch(){
+    let side = pointer.style.float
+    if(side === "left"){pointer.style.float = "right"}
+    else{pointer.style.float = "left"}
+    userSelectUpdate(pointer)
     lastChat = chats[chats.length - 1]
     if(person === 1){
         lastChat.style.alignSelf = "flex-start"
@@ -126,6 +121,12 @@ function userSelectHandler(e){
         lastChat.style.alignSelf = "flex-end"
     }
     input[0].focus()
+}
+function openKeyboard(){
+    input[0].focus()
+}
+function userSelectUpdate(element){
+    if(element.style.float === "left"){person = 1}else{person = 2}
 }
 
 function enterHandler(input){
@@ -142,21 +143,19 @@ document.addEventListener("keydown", e => {
     if(e.key === "Enter" && input[0].value.trim()){
         enterHandler(input[0].value)
         input[0].value = ""
-        lastChat.scrollIntoView("smooth")
+        lastChat.innerHTML = "..."
     }
     if(e.key === "Tab"){
         e.preventDefault()
-        if(userSelected.classList[1] === "person1"){
-            userSelected.classList.remove("selected")
-            users[1].classList.add("selected")
-            userSelected = users[1]
-            lastChat.style.alignSelf = "flex-end"
-        } else {
-            userSelected.classList.remove("selected")
-            users[0].classList.add("selected")
-            userSelected = users[0]
-            lastChat.style.alignSelf = "flex-start"
-        }
+        userSwitch()
+        userSelectUpdate(pointer)
+    }
+})
+input[0].addEventListener("input", e =>{
+    lastChat.innerHTML = e.target.value
+    if(e.target.value.trim() === ""){
+        e.target.value = e.target.value.trim()
+        lastChat.innerHTML = "..."
     }
 })
         </script>
