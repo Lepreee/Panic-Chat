@@ -7,13 +7,14 @@
 body{
     margin: 0;
     padding: 0;
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 header{
     width: 100vw;
     height: 10vh;
     background-color: black;
     position: sticky;
+    top: 0;
     display: flex;
     align-items: center;
     justify-content: space-around;
@@ -29,14 +30,14 @@ header{
 }
 main{
     width: 100vw;
-    height: 75vh;
+    min-height: 75vh;
     background-color: rgb(40, 40, 40);
 }
 .chat-container{
     box-sizing: border-box;
     padding: 5% 0%;
     width: 100%;
-    height: 100%;
+    /* height: 100%; */
     display: flex;
     flex-direction: column;
     gap: 0.25rem;
@@ -58,6 +59,8 @@ footer{
     width: 100vw;
     height: 15vh;
     background-color: rgb(40, 40, 40);
+    position: sticky;
+    bottom: 0;
 }
 .text-container{
     width: 100%;
@@ -117,6 +120,7 @@ function userSelectHandler(e){
     } else {
         lastChat.style.alignSelf = "flex-end"
     }
+    input[0].focus()
 }
 
 function enterHandler(input){
@@ -133,6 +137,7 @@ document.addEventListener("keydown", e => {
     if(e.key === "Enter" && input[0].value.trim()){
         enterHandler(input[0].value)
         input[0].value = ""
+        lastChat.scrollIntoView("smooth")
     }
     if(e.key === "Tab"){
         e.preventDefault()
