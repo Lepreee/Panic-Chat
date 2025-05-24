@@ -64,7 +64,7 @@ main{
 }
 input{
     all: unset;
-    width: 0%;
+    width: 0.9%;
     height: 100%;
     text-align: center;
     border-radius: 2rem;
@@ -74,7 +74,7 @@ input{
     </head>
     <body>
         <header>
-            <div class="user-select" onclick="userSelectHandler(event)">
+            <div class="user-select" onclick="userSwitch()">
                 <div class="pointer"></div>
             </div>
             <div class="open-keyboard" onclick="openKeyboard()">
@@ -95,17 +95,18 @@ document.documentElement.style.setProperty("--vh", vh + "px")
 
 
 let userSelector = document.querySelector(".user-select")
+let pointer = document.querySelector(".pointer")
 let chatContainer = document.getElementsByClassName("chat-container")[0]
 let chats = document.getElementsByClassName("chats")
 let input = document.getElementsByTagName("input")
 
 let lastChat = chats[chats.length - 1]
 let person = 2
-function userSelectHandler(e){
-    let side = e.target.style.float
-    if(side === "left"){e.target.style.float = "right"}
-    else{e.target.style.float = "left"}
-    userSelectUpdate(e.target)
+function userSwitch(){
+    let side = pointer.style.float
+    if(side === "left"){pointer.style.float = "right"}
+    else{pointer.style.float = "left"}
+    userSelectUpdate(pointer)
     lastChat = chats[chats.length - 1]
     if(person === 1){
         lastChat.style.alignSelf = "flex-start"
@@ -139,8 +140,8 @@ document.addEventListener("keydown", e => {
     }
     if(e.key === "Tab"){
         e.preventDefault()
-        userSelectUpdate(userSelector)
-        userSelectHandler(userSelector)
+        userSwitch()
+        userSelectUpdate(pointer)
     }
 })
 input[0].addEventListener("input", e =>{
